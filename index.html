@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stunning 3D Heart Gallery with Love Message</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(135deg, #fff0f0, #ffe0e6);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    perspective: 1600px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #heart-container {
+    position: relative;
+    width: 90vmin;
+    height: 90vmin;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: beat 1s infinite;
+    color: #b3003b;
+    z-index: 5;
+  }
+
+  @keyframes beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  @keyframes breakHeart {
+    0% {
+      transform: scale(1) rotate(0deg);
+      filter: none;
+      opacity: 1;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    40% {
+      clip-path: polygon(45% 50%, 55% 50%, 100% 0, 100% 100%, 0 100%, 0% 0);
+      opacity: 1;
+    }
+    60% {
+      clip-path: polygon(50% 50%, 55% 50%, 100% 0, 100% 100%, 0 100%, 0% 0);
+      opacity: 1;
+      transform: scale(1.2) rotate(5deg);
+      filter: drop-shadow(2px 0 1px #b3003b);
+    }
+    100% {
+      clip-path: polygon(55% 40%, 100% 0, 100% 100%, 55% 100%, 0 60%, 45% 40%);
+      transform: scale(1.3) rotate(15deg) translateX(20%);
+      opacity: 0;
+      filter: drop-shadow(10px 0 5px #b3003b);
+    }
+  }
+
+  #heart-emoji {
+    position: absolute;
+    font-size: 90vmin;
+    user-select: none;
+    pointer-events: none;
+    color: #e6004c;
+    filter: drop-shadow(0 0 8px #a00033cc);
+    z-index: 6;
+  }
+
+  #content {
+    position: relative;
+    z-index: 10;
+    width: 60%;
+    text-align: center;
+    color: #7a0032;
+    font-weight: 700;
+    font-size: 4vmin;
+    user-select: none;
+    transition: opacity 0.5s ease;
+    text-shadow: 1px 1px 3px #a0003355;
+  }
+
+  #question {
+    margin-bottom: 2vh;
+  }
+
+  #buttons {
+    display: flex;
+    justify-content: center;
+    gap: 5vw;
+  }
+
+  button {
+    font-size: 3vmin;
+    padding: 1.5vh 3vw;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: font-size 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px #a0003355;
+    background: linear-gradient(45deg, #e6004c, #b3003b);
+    color: white;
+    user-select: none;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #b3003b, #e6004c);
+    transform: scale(1.1);
+  }
+
+  /* Floating Hearts */
+  .floating-heart {
+    position: fixed;
+    font-size: 1.5rem;
+    opacity: 0.8;
+    animation-name: floatUp;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    pointer-events: none;
+    user-select: none;
+    z-index: 2;
+    filter: drop-shadow(0 0 5px #ff4d6d);
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) scale(1); opacity: 0.8; }
+    60% { opacity: 0.8; }
+    100% { transform: translateY(-10vh) scale(1.3); opacity: 0; }
+  }
+
+  /* Gallery container */
+  #gallery {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 80vw;
+    height: 80vh;
+    max-height: 90vmin;
+    max-width: 90vmin;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    border-radius: 24px;
+    overflow: visible;
+    box-shadow:
+      0 0 30px 8px rgba(230,0,76,0.4),
+      0 0 60px 10px rgba(230,0,76,0.2);
+  }
+  #gallery img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 24px;
+    box-shadow: 0 0 40px 5px #bb0033cc;
+    opacity: 0;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: none;
+    transition: none;
+  }
+  #gallery img.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* I Love You message */
+  #love-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+    color: #e6004c;
+    font-weight: 900;
+    font-size: 12vmin;
+    font-family: 'Brush Script MT', cursive, sans-serif;
+    text-shadow:
+      4px 4px 16px #900030cc,
+      0 0 40px #ff4d6d;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 30;
+    transition: opacity 2s ease, transform 1.5s ease;
+  }
+  #love-message.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+</style>
+</head>
+<body>
+
+<div id="heart-container" aria-label="Beating heart with question and answers">
+  <div id="heart-emoji">❤️</div>
+  <div id="content" role="main">
+    <div id="question">Will you be mine forever?</div>
+    <div id="buttons">
+      <button id="yes-btn" type="button" aria-label="Yes option">Yes</button>
+      <button id="no-btn" type="button" aria-label="No option">No</button>
+    </div>
+  </div>
+</div>
+
+<div id="gallery" aria-live="polite" aria-label="Photo gallery"></div>
+<div id="love-message" aria-live="polite" aria-label="Love message">I Love You</div>
+
+<audio id="background-music" src="song.mp3" preload="auto"></audio>
+
+<script>
+  const question = document.getElementById('question');
+  const yesBtn = document.getElementById('yes-btn');
+  const noBtn = document.getElementById('no-btn');
+  const content = document.getElementById('content');
+  const heart = document.getElementById('heart-emoji');
+  const heartContainer = document.getElementById('heart-container');
+  const gallery = document.getElementById('gallery');
+  const loveMessage = document.getElementById('love-message');
+  const music = document.getElementById('background-music');
+  let noClickedCount = 0;
+
+  const imageCount = 10;
+  const images = [];
+
+  for(let i = 1; i <= imageCount; i++) {
+    const img = document.createElement('img');
+    img.src = `image${i}.jpg`;
+    img.alt = `Gallery image ${i}`;
+    img.style.opacity = '0';
+    img.style.transform = 'translate(-50%, -50%) scale(0.5) rotateY(20deg) rotateX(20deg)';
+    gallery.appendChild(img);
+    images.push(img);
+  }
+
+  // Floating hearts background
+  function createFloatingHeart() {
+    const heartEmojis = ['❤️','💖','💘','💝','💗','💕','💓','💞','❣️'];
+    const heart = document.createElement('div');
+    heart.classList.add('floating-heart');
+    heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (14 + Math.random()*26) + 'px';
+    heart.style.animationDuration = (6 + Math.random() * 7) + 's';
+    heart.style.animationTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), (6 + Math.random() * 7) * 1000);
+  }
+  setInterval(createFloatingHeart, 350);
+
+  noBtn.addEventListener('click', () => {
+    noClickedCount++;
+    if (noClickedCount === 1) {
+      question.textContent = 'Will you be mine forever?';
+    }
+    let newFontSize = 3 + noClickedCount * 1.2;
+    yesBtn.style.fontSize = newFontSize + 'vmin';
+    yesBtn.style.padding = (1.5 + noClickedCount * 0.5) + 'vh ' + (3 + noClickedCount * 1) + 'vw';
+  });
+
+  yesBtn.addEventListener('click', () => {
+    content.style.opacity = '0';
+    setTimeout(() => {
+      heart.style.animation = 'breakHeart 1.5s forwards';
+      setTimeout(() => {
+        heartContainer.style.display = 'none';
+        startGalleryAndMusic();
+      }, 1500);
+    }, 500);
+  });
+
+  // Unique, elegant transition effects for each image
+  const transitionEffects = [
+    (img) => { // Bloom + fade
+      img.style.transition = 'transform 2.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 2.5s ease';
+      img.style.transform = 'translate(-50%, -50%) scale(1.15) rotate(0deg) rotateX(0deg)';
+      img.style.opacity = '1';
+    },
+    (img) => { // Swing rotate + fade
+      img.style.transition = 'transform 2.5s ease-in-out, opacity 2.5s ease';
+      img.style.transform = 'translate(-50%, -50%) scale(1) rotate(15deg) rotateX(15deg)';
+      img.style.opacity = '1';
+    },
+    (img) => { // Soft zoom + 3D tilt
+      img.style.transition = 'transform 2.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 2.5s ease';
+      img.style.transform = 'translate(-50%, -50%) scale(1.2) rotateY(10deg) rotateX(10deg)';
+      img.style.opacity = '1';
+    },
+    (img) => { // Floating up + fade in/out
+      img.style.transition = 'transform 2.5s ease-in-out, opacity 2.5s ease';
+      img.style.transform = 'translate(-50%, -60%) scale(1) rotate(-10deg) rotateX(-10deg)';
+      img.style.opacity = '1';
+    },
+    (img) => { // RotateY swirl fade in
+      img.style.transition = 'transform 2.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 2.5s ease';
+      img.style.transform = 'translate(-50%, -50%) scale(1) rotateY(360deg) rotateX(0deg)';
+      img.style.opacity = '1';
+    },
+    (img) => { // Slight scale down + fade in
+      img.style.transition = 'transform 2.5s ease, opacity 2.5s ease';
+      img.style.transform = 'translate(-50%, -50%) scale(0.9) rotate(5deg) rotateX(5deg)';
+      img.style.opacity = '1';
+    },
+    (img) => { // Perspective tilt with glow
+      img.style.transition = 'transform 2.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 2.5s ease';
+      img.style.boxShadow = '0 0 45px 12px #ff3377aa';
+      img.style.transform = 'translate(-50%, -50%) scale(1.05) rotateY(-15deg) rotateX(15deg)';
+      img.style.opacity = '1';
+    },
+    (img) => { // Zoom fade with pulse shadow
+      img.style.transition = 'transform 2.5s ease, box-shadow 2.5s ease, opacity 2.5s ease';
+      img.style.boxShadow = '0 0 60px 14px #ff5577cc';
+      img.style.transform = 'translate(-50%, -50%) scale(1.3) rotate(5deg) rotateX(0deg)';
+      img.style.opacity = '1';
+    },
+    (img) => { // Soft swirl and shrink
+      img.style.transition = 'transform 2.5s ease-in-out, opacity 2.5s ease';
+      img.style.transform = 'translate(-50%, -50%) scale(0.85) rotateZ(45deg) rotateX(0deg)';
+      img.style.opacity = '1';
+    },
+    (img) => { // Hover like bounce up and fade
+      img.style.transition = 'transform 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 2.5s ease';
+      img.style.transform = 'translate(-50%, -45%) scale(1) rotate(0deg)';
+      img.style.opacity = '1';
+    }
+  ];
+
+  function resetImage(img) {
+    img.style.transition = 'none';
+    img.style.opacity = '0';
+    img.style.boxShadow = '0 0 40px 5px #bb0033cc';
+    img.style.transform = 'translate(-50%, -50%) scale(0.8) rotate(0deg) rotateX(20deg)';
+  }
+
+  function startGalleryAndMusic() {
+    gallery.style.display = 'flex';
+    music.play();
+
+    let currentIndex = 0;
+
+    function showNextImage() {
+      for (let i = 0; i < images.length; i++) {
+        resetImage(images[i]);
+        images[i].classList.remove('visible');
+      }
+      let img = images[currentIndex];
+      img.classList.add('visible');
+      // Apply fancy transition effect
+      transitionEffects[currentIndex % transitionEffects.length](img);
+
+      currentIndex++;
+      if(currentIndex >= images.length) {
+        setTimeout(() => {
+          gallery.style.display = 'none';
+          showLoveMessage();
+        }, 2800);
+      } else {
+        setTimeout(showNextImage, 2800);
+      }
+    }
+    showNextImage();
+  }
+
+  function showLoveMessage() {
+    loveMessage.classList.add('show');
+  }
+</script>
+
+</body>
+</html>
